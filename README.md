@@ -10,7 +10,7 @@
   #### Eg:  Speaking "I have to buy pencils low priority" will take "I have to buy pencils" as Text with low priority radio button selected.
   ### This is feature restricted to only chrome browser though.
   
-    ![](imagesfolder/voice2.png)
+   ![](imagesfolder/voice2.png)
   
   
   ## 2. Can view items based on their status.
@@ -22,7 +22,7 @@
    #### Completed items are striked out and pushed to the bottom.
    #### while Incomplete tasks are filled with one of red orange green based on their priority level.
   
-    ![](imagesfolder/todoapp.png)
+   ![](imagesfolder/todoapp.png)
   
  
   
@@ -30,7 +30,7 @@
   ## 4.Email Functionality:
    #### Can send the list of tasks to anyone or to your Registered Mail ID. Mail to Self disables the Mail address input field.
   
-    ![](imagesfolder/mail.png)
+   ![](imagesfolder/mail.png)
   
   ### Mail Received:
-    ![](imagesfolder/mailed.png)
+   ![](imagesfolder/mailed.png)
