@@ -89,17 +89,17 @@ def mailtodo(request):
         if(form.is_valid()):
             currentName = request.user.first_name
             currentEmail = request.user.email
-            print(currentEmail)
+            
             content = request.POST.get('content','')
 
-            mailId = request.POST.get('mailid', currentEmail)
+            mailid = request.POST.get('mailid', currentEmail)
 
             mailToSelf = request.POST.get('mailtoself')
 
             if(mailToSelf):
-                mailId=currentEmail
-                print("mailtoself true")
-            print(mailid)
+                mailid=currentEmail
+                
+           
             
             mailContent = currentName+"'s Tasks!\n\n"
             todoList = Todo.objects.filter(owner=request.user).order_by('complete')
@@ -110,9 +110,9 @@ def mailtodo(request):
                         status = "Completed"
                     else:
                         status = "Incomplete"
-                    prioritymap = { 0: "High Priority",
-                                    1: "Moderate Priority",
-                                    2: "Low Priority",}
+                    prioritymap = { 1: "High Priority",
+                                    2: "Moderate Priority",
+                                    3: "Low Priority",}
                     
                     
                     mailContent += todo.text + "\t" + status + "\t" + prioritymap[todo.priority] + "\n"
@@ -123,7 +123,7 @@ def mailtodo(request):
                 title,
                 content,
                 'sanojdjango@gmail.com',
-                [mailId],
+                [mailid],
                 fail_silently=True,
             )
             return redirect('mailtodo')
