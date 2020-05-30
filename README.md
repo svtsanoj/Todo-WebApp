@@ -8,7 +8,7 @@
   
   ## 1. Voice Input for Task Entry And Automatic Task Priority selection.
   #### Eg:  Speaking "I have to buy pencils low priority" will take "I have to buy pencils" as Text with low priority radio button selected.
-  ### This is feature restricted to only chrome browser though.
+  ### This feature is restricted to only chrome browser though.
   
    ![](imagesfolder/voice2.png)
   
