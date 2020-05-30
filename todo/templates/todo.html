@@ -165,9 +165,35 @@ html {
 
                      </span>
                  </div>
-                 
+                <div class="d-flex justify-content-center ">
+                 <div style="text-align:center; margin-bottom:20px; display: inline;">
+                     <span id="outer">
+                         <div class="btn-group inner" style="text-align:center ">
+                             <a href="{% url 'todayListToggle0' 0 %}" style=" padding: 10px;">
+                                 
+                                     ALL
+                                
+                             </a>
+                         </div>
+                         <div class="btn-group inner" style="text-align:center">
+                             <a href="{% url 'todayListToggle1' 1 %}" style=" padding: 10px;">
+                                 
+                                 TODAY
+                                 
+                             </a>
+                         </div>
+
+                         <div class="btn-group inner" style="text-align:center">
+                             <a href="{% url 'todayListToggle2' 2 %}" style=" padding: 10px;">
+                                BACKLOG
+                             </a>
+                         </div>
+
+                     </span>
+                 </div>
+                 </div>
                  <ul class="list-group" >
-                     {% for todo in todo_list %}
+                     {% for todo in todoList%}
                      {% if todo.complete %}
                      <li class="list-group-item todo-completed"><a
                              href="{% url 'completetoggle' todo.id %}" class= 'todoitems' >{{todo.text}}</a></li>
