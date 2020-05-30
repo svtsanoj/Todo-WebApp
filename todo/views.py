@@ -31,7 +31,7 @@ def todo(request, todaylist='0'):
             todo.current = True
 
     todoListCurrent = list(Todo.objects.filter(owner=current_user, current=True).order_by('complete','priority'))
-    todoListBacklog = list(Todo.objects.filter(owner=current_user, current=False).order_by('complete','priority'))
+    todoListBacklog = list(Todo.objects.filter(owner=current_user, current=False, complete=False).order_by('complete','priority'))
     
     todoListShow = todoList
 
