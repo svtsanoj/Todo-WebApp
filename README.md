@@ -2,7 +2,7 @@
 
 # Main Features:
   
-  ## 1. Voice Input for Task Entry And Automatic Task Priority selection based on Voice
+  ## 1. Voice Input for Task Entry And Automatic Task Priority selection.
   ![](imagesfolder/voice2.png)
   
   Eg:  Speaking "I have to buy pencils low priority" will take "I have to buy pencils" as Text with low priority radio button selected.
