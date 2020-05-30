@@ -33,4 +33,4 @@
    ![](imagesfolder/mail.png)
   
   ### Mail Received:
-   ![](imagesfolder/mailed.png)
+   ![](imagesfolder/mailed.PNG)
