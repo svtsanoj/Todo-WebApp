@@ -7,7 +7,8 @@ from django.core.mail import send_mail
 from django.contrib import messages
 
 # Create your views here.
-def todo(request):
+def todo(request, todaylist='0'):
+    
     if(not request.user.is_authenticated):
         return redirect("login")
 
@@ -21,14 +22,27 @@ def todo(request):
             entered_todo.save()
             return redirect("todo")
 
+    date = datetime.today().date() 
+    todoList = list(Todo.objects.filter(owner=current_user).order_by('complete','priority'))
+    for todo in todoList:
+        if(todo.date < date):
+            todo.current = False
+        else:
+            todo.current = True
 
-    todo_list = list(Todo.objects.filter(owner=current_user).order_by('complete','priority')) 
-    print(todo_list)
-    listlen = len(todo_list)
+    todoListCurrent = list(Todo.objects.filter(owner=current_user, current=True).order_by('complete','priority'))
+    todoListBacklog = list(Todo.objects.filter(owner=current_user, current=False, complete=False).order_by('complete','priority'))
+    
+    todoListShow = todoList
+
+    if(todaylist=='1'):
+        todoListShow = todoListCurrent
+    if(todaylist=='2'):
+        todoListShow = todoListBacklog
+
     form = TodoForm()
-    date = datetime.today()  
-
-    context = {'todo_list': todo_list, 
+    
+    context = {'todoList': todoListShow, 
                'form': form,
                'date': date,
                'current_user' : current_user 
@@ -37,25 +51,28 @@ def todo(request):
     return render(request, 'todo.html', context=context)
 
 
+def todayListToggle(request, thistodaylist):
+    return todo(request, thistodaylist)
+
 def completeTodoToggle(request, todo_id):
-    todo = Todo.objects.get(pk=todo_id) 
+    todo = Todo.objects.get(pk=todo_id)
     if(todo.complete):
         todo.complete = False
     else:
         todo.complete = True
-        todo.save()
+    todo.save()
     return redirect('todo')
 
 def deleteCompleted(request):
-    todo_list = Todo.objects.filter(complete__exact=True)  
-    if(len(todo_list) > 0):
-        todo_list.delete()
+    todoList = Todo.objects.filter(complete__exact=True)  
+    if(len(todoList) > 0):
+        todoList.delete()
     return redirect('todo')
 
 def deleteAll(request):
-    todo_list = Todo.objects.all() 
-    if(len(todo_list) > 0):
-        todo_list.delete()
+    todoList = Todo.objects.all() 
+    if(len(todoList) > 0):
+        todoList.delete()
     return redirect('todo')
 
 
@@ -75,21 +92,21 @@ def mailtodo(request):
             print(currentEmail)
             content = request.POST.get('content','')
 
-            mailid = request.POST.get('mailid', currentEmail)
+            mailId = request.POST.get('mailid', currentEmail)
 
-            mailtoself = request.POST.get('mailtoself')
+            mailToSelf = request.POST.get('mailtoself')
 
-            if(mailtoself):
-                mailid=currentEmail
+            if(mailToSelf):
+                mailId=currentEmail
                 print("mailtoself true")
             print(mailid)
             
-            mailcontent = currentName+"'s Tasks!\n\n"
-            todo_list = Todo.objects.filter(owner=request.user).order_by('complete')
-            if(len(todo_list)>0):
-                for todo in todo_list:
-                    checkcomplete = todo.complete
-                    if(checkcomplete):
+            mailContent = currentName+"'s Tasks!\n\n"
+            todoList = Todo.objects.filter(owner=request.user).order_by('complete')
+            if(len(todoList)>0):
+                for todo in todoList:
+                    checkComplete = todo.complete
+                    if(checkComplete):
                         status = "Completed"
                     else:
                         status = "Incomplete"
@@ -98,15 +115,15 @@ def mailtodo(request):
                                     2: "Low Priority",}
                     
                     
-                    mailcontent += todo.text + "\t" + status + "\t" + prioritymap[todo.priority] + "\n"
+                    mailContent += todo.text + "\t" + status + "\t" + prioritymap[todo.priority] + "\n"
             
-            content = content + "\n\n" +mailcontent
+            content = content + "\n\n" +mailContent
             title = currentName+"'s Todo List"
             send_mail(
                 title,
                 content,
                 'sanojdjango@gmail.com',
-                [mailid],
+                [mailId],
                 fail_silently=True,
             )
             return redirect('mailtodo')
